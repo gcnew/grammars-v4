@@ -78,11 +78,22 @@ variableModifier
     | annotation
     ;
 
+extendsList
+    : EXTENDS typeList
+    ;
+
+implementsList
+    : IMPLEMENTS typeList
+    ;
+
+permitsList
+    : PERMITS typeList
+    ;
+
 classDeclaration
-    : CLASS identifier typeParameters?
-      (EXTENDS typeType)?
-      (IMPLEMENTS typeList)?
-      (PERMITS typeList)? // Java17
+    : CLASS identifier typeParameters? (EXTENDS typeType)?
+      implementsList?
+      permitsList? // Java17
       classBody
     ;
 
@@ -99,7 +110,7 @@ typeBound
     ;
 
 enumDeclaration
-    : ENUM identifier (IMPLEMENTS typeList)? '{' enumConstants? ','? enumBodyDeclarations? '}'
+    : ENUM identifier implementsList? '{' enumConstants? ','? enumBodyDeclarations? '}'
     ;
 
 enumConstants
@@ -115,7 +126,7 @@ enumBodyDeclarations
     ;
 
 interfaceDeclaration
-    : INTERFACE identifier typeParameters? (EXTENDS typeList)? (PERMITS typeList)? interfaceBody
+    : INTERFACE identifier typeParameters? extendsList? permitsList? interfaceBody
     ;
 
 classBody
@@ -418,7 +429,7 @@ requiresModifier
 
 recordDeclaration
     : RECORD identifier typeParameters? recordHeader
-      (IMPLEMENTS typeList)?
+      implementsList?
       recordBody
     ;
 

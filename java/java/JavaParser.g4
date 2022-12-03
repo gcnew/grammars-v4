@@ -265,7 +265,11 @@ arrayInitializer
     ;
 
 classOrInterfaceType
-    : (identifier typeArguments? '.')* typeIdentifier typeArguments?
+    : typeRef ('.' typeRef)*
+    ;
+
+typeRef
+    : identifier typeArguments?
     ;
 
 typeArgument
@@ -484,23 +488,6 @@ identifier
     | VAR
     ;
 
-typeIdentifier  // Identifiers that are not restricted for type declarations
-    : IDENTIFIER
-    | MODULE
-    | OPEN
-    | REQUIRES
-    | EXPORTS
-    | OPENS
-    | TO
-    | USES
-    | PROVIDES
-    | WITH
-    | TRANSITIVE
-    | SEALED
-    | PERMITS
-    | RECORD
-    ;
-
 localTypeDeclaration
     : classOrInterfaceModifier*
       (classDeclaration | interfaceDeclaration | recordDeclaration)
@@ -550,7 +537,7 @@ resources
     ;
 
 resource
-    : variableModifier* ( classOrInterfaceType variableDeclaratorId | VAR identifier ) '=' expression
+    : variableModifier* ( VAR identifier | classOrInterfaceType variableDeclaratorId ) '=' expression
     | identifier
     ;
 
